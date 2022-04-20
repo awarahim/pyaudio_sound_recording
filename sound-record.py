@@ -14,11 +14,11 @@ import time
 filename = 'output-white-noise.wav'
 
 # Constants for audio devices
-FORMAT  = pyaudio.paInt16    # 24-bit the mic is 24-bit with sample rate of 96kHz
-CHANNELS = 2                 # number of audio streams to use. Since there is one speaker and one mic, use 2 streams
+FORMAT  = pyaudio.paInt16   # audio format specific for microphone
+CHANNELS = 2                # number of audio streams to use
 RATE = 48000                # 48kHz since mic is specific at 48kHz
 FRAMES_PER_BUFFER = 1024    # number of frames the speaker is taking in
-DURATION = 1*60                # in seconds
+DURATION = 1*60             # in seconds EDIT HERE
 
 # Create an itnerface to PortAudio
 pa = pyaudio.PyAudio()
@@ -42,7 +42,7 @@ stream = pa.open(format=FORMAT,
                  rate = RATE,
                  input=True,
                  frames_per_buffer = FRAMES_PER_BUFFER,
-                 input_device_index = 2,
+                 input_device_index = 2, # EDIT HERE
                  stream_callback = callback)
 
 print('recording...')
@@ -51,7 +51,7 @@ start = time.time()
 elapsed = 0.0
 
 # Store data in chunks for "duration" seconds
-while elapsed < 2*DURATION: # data coming in is really fast, use 1s for the wait
+while elapsed < CHANNELS*DURATION: # since channels used are 2, IF 1 CHANNEL, DURATION IS 1*DURATION
         # start stream
         stream.start_stream() 
         elapsed = time.time() - start
